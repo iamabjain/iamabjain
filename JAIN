@@ -1,0 +1,62 @@
+#PROBLEM LINK:   
+[Practice][1]    
+[Contest: Division 1][2]            
+[Contest: Division 2][3]   
+
+**Setter:** [Abhinav Jain][4]             
+**Tester:** [Encho Mishinev][5]            
+**Editorialist:** [Taranpreet Singh][6]             
+
+#DIFFICULTY:   
+
+
+#PREREQUISITES:   
+Maths. (Bitmasks would be an advantage)
+
+#PROBLEM:   
+Given $N$ dishes, each dish being represented by string $D_i$ consisting of lowercase vowels, Find all ordered pairs which can form a meal. Pair of dishes $(i,j)$ can form a meal if $D_i+D_j$ contains every vowel at least once.
+
+#QUICK EXPLANATION
+
+ * Repeated occurrences of a vowel doesn't matter. In the end, each dish may be represented by a tuple of five boolean values, each stating whether a particular vowel is present or not.
+ * There are $2^5 = 32$ tuples. We can count the frequency of each tuple in $N$ dishes. Now, we can consider every pair of a tuple and if the union of this pair of tuple contains all vowels, we can pair any dish represented by the first tuple, with any dish represented by the second tuple.
+ * Edge case is the tuple representing the dishes with all vowels present. In this case, make sure to exclude the overcounted pairs $(i, i)$.
+   
+#EXPLANATION  
+
+Since in the final meal, we only care about at least one occurrence of each vowel, repeated occurrences of any vowel don't matter. So, we can remove repeated occurrences.
+
+Now, Let us count the number of different type of dishes we can have, where each type differs only if one vowel is present in one dish while not present in another dish. Since there are five vowels, Number of types of dishes is just the size of the power set of set of vowels, which is $2^5 = 32$.
+
+So, We have divided the dishes into 32 categories. If two dishes belong to the same category, they contain the same set of vowels.
+
+Now, Let's try all pairs of sets present in power set one by one. If the union of any pair $(i,j)$ of the set contains all vowels, All dishes categorized in the ith category can be merged with all dishes categorized in the jth category.
+
+The number of pairs of such categories is just $32*32 = 1024$ which we can try by brute force. Also, we need to take care not to pair a dish containing all vowels with itself. Also, Pair $(i, j)$ and Pair $(j, i)$ of dishes should be counted once only.
+
+**Bitmasks**
+
+All the categories we made above, were just bitmasks having 5 bits, ith bit on representing the presence of ith vowel in a dish. Union of two types of dishes is just the OR of bitmasks of both dishes. Checking if all dishes is present is equivalent to checking if all bit of union are set or not.
+
+Hope this forms a nice introduction to bitmasks.
+
+#Time Complexity
+Time complexity is $O(N+4^C)$ per test case where $C = 5$ is the number of vowels.
+
+#AUTHOR'S AND TESTER'S SOLUTIONS:        
+[Setter's solution][7]  
+[Tester's solution][8]      
+[Editorialist's solution][9]     
+
+Feel free to Share your approach, If it differs. Suggestions are always welcomed. :)
+
+
+  [1]: https://www.codechef.com/problems/JAIN
+  [2]: https://www.codechef.com/MARCH19A/problems/JAIN
+  [3]: https://www.codechef.com/MARCH19B/problems/JAIN
+  [4]: https://www.codechef.com/users/iamabjain
+  [5]: https://www.codechef.com/users/enchom
+  [6]: https://www.codechef.com/users/taran_1407
+  [7]: https://www.codechef.com/download/Solutions/MARCH19/setter/JAIN.cpp
+  [8]: https://www.codechef.com/download/Solutions/MARCH19/tester/JAIN.cpp
+  [9]: https://www.codechef.com/download/Solutions/MARCH19/editorialist/JAIN.java
