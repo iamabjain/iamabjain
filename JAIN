@@ -24,19 +24,36 @@ Given $N$ dishes, each dish being represented by string $D_i$ consisting of lowe
    
 #EXPLANATION  
 
-Since in the final meal, we only care about at least one occurrence of each vowel, repeated occurrences of any vowel don't matter. So, we can remove repeated occurrences.
+#EXPLANATION  
 
-Now, Let us count the number of different type of dishes we can have, where each type differs only if one vowel is present in one dish while not present in another dish. Since there are five vowels, Number of types of dishes is just the size of the power set of set of vowels, which is $2^5 = 32$.
+If we simply iterate using two nested FOR loops, and generating all the possible pairs , that would result in a O(N*N) time complexity Solution which is very 
+slow.
+So, to do it efficiently, we can use the concept of bitmasks.
+Every Dish can be represented as the mask of 5 bits such that if it contains a particular vowel, then bit at that position will be set 1 , else it will be set 0.
 
-So, We have divided the dishes into 32 categories. If two dishes belong to the same category, they contain the same set of vowels.
+We can store each string as a bitmask .
+For example: 
+A Dish= "aaeuua" can be represented as (1 1 0 0 1). The binary number [11001] = (25) in decimal means that the string has the vowels 'a','e', and 'u'.
+a e i o u
+1 1 0 0 1
+The binary number [11001] = (25) in decimal means that the string has the vowels 'a','e', and 'u'.
 
-Now, Let's try all pairs of sets present in power set one by one. If the union of any pair $(i,j)$ of the set contains all vowels, All dishes categorized in the ith category can be merged with all dishes categorized in the jth category.
+So, Every Dish can be represented as a bit mask. So, they may vary from (00000) to (11111).
+So, total number of distinct representations we can have of all the dishes is $2^5=32.
 
-The number of pairs of such categories is just $32*32 = 1024$ which we can try by brute force. Also, we need to take care not to pair a dish containing all vowels with itself. Also, Pair $(i, j)$ and Pair $(j, i)$ of dishes should be counted once only.
+Note that the dishes containing same sets of vowels will be represented as same bitmask. 
+For example: the dish="uueaa" = "ueaueaueauuae" ="aeu" =(11001).
+
+So, We can maintain an array of size 32 which stores the frequency of each of the possible bitmasks as well.
+i.e. We have divided the dishes into 32 categories. If two dishes belong to the same category, they contain the same set of vowels.
+
+Then we can iterate over all the possible bitmasks from [00000] to [11111] i.e. from 0 to 31. and then find the count of total pairs whose concatenation has all the 5 vowels.
 
 **Bitmasks**
 
-All the categories we made above, were just bitmasks having 5 bits, ith bit on representing the presence of ith vowel in a dish. Union of two types of dishes is just the OR of bitmasks of both dishes. Checking if all dishes is present is equivalent to checking if all bit of union are set or not.
+All the categories we made above, were just bitmasks having 5 bits, ith bit on representing the presence of ith vowel in a dish. Union of two types of dishes 
+is just the OR of bitmasks of both dishes. Checking if all vowels are present is equivalent to checking if all bit of union are set or not.i.e. checking if Bitwise 
+ORing of ith and jth dish results in (11111) or not.
 
 Hope this forms a nice introduction to bitmasks.
 
